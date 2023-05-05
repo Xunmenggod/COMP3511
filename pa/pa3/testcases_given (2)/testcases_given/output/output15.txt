@@ -1,0 +1,10 @@
+algorithm = LRU
+frames_available = 10
+reference_string_length = 5
+reference_string = 0 0 2 2 3 
+0: 0                   
+0: No Page Fault
+2: 0 2                 
+2: No Page Fault
+3: 0 2 3               
+Total Page Fault: 3

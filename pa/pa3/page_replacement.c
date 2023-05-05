@@ -246,18 +246,18 @@ void FIFO_replacement()
     int pointer = 0, total_page_faults = 0;
     for (i = 0; i < reference_string_length; i++)
     {
-        int empty_index = empty_frame_spot;
+        int empty_index = empty_frame_spot();
         if (is_page_fault(reference_string[i]))
         {
             total_page_faults++;
-            display_fault_frame(reference_string[i]);
-            if (empty_frame_spot != -1)
+            if (empty_index != -1)
                 frames[empty_index] = reference_string[i];
             else
             {
                 frames[pointer++] = reference_string[i];
                 pointer %= frames_available;
             }
+            display_fault_frame(reference_string[i]);
         }else
             printf(template_no_page_fault, reference_string[i]);
     }
@@ -274,7 +274,7 @@ int victim(int current_reference_index)
 
     for(i = 0; i < frames_available; i++)
     {
-         for (j = current_reference_index + 1; i < reference_string_length; j++)
+         for (j = current_reference_index + 1; j < reference_string_length; j++)
         {
             if (reference_string[j] == frames[i])
             {
@@ -283,7 +283,7 @@ int victim(int current_reference_index)
             }
         }
         if (isVictim)
-            victimFrames[numVictims++] = reference_string[j];
+            victimFrames[numVictims++] = frames[i];
         isVictim = 1;
     }
 
@@ -300,7 +300,7 @@ int victim(int current_reference_index)
 // return furthest frame
 int furthest_frame(int current_reference_index)
 {
-    int i,j, furthestFrame;
+    int i,j;
     int furthestDistance = -1000, furthestFrame = -1;
     for (i = 0; i < frames_available; i++)
     {
@@ -327,6 +327,7 @@ int getFrameIndex(int frame)
     for (i = 0; i < frames_available; i++)
         if (frame == frames[i])
             return i;
+    return -1;
 }
 
 void OPT_replacement()
@@ -339,8 +340,7 @@ void OPT_replacement()
         int empty_index = empty_frame_spot();
         if (is_page_fault(reference_string[i]))
         {
-            total_page_faults++;
-            display_fault_frame(reference_string[i]);
+            total_page_faults++;  
             if (empty_index == -1)
             {
                 int victim_frame = victim(i);
@@ -353,6 +353,7 @@ void OPT_replacement()
                 }
             }else
                 frames[empty_index] = reference_string[i];
+            display_fault_frame(reference_string[i]);
         }else
             printf(template_no_page_fault, reference_string[i]);
     }
@@ -364,31 +365,37 @@ void LRU_replacement()
     // TODO: Implement LRU replacement here
     int counters[MAX_QUEUE_SIZE] = {10000};
     int i, total_page_faults = 0;
+    // initialization
+    for (i = 0; i < MAX_QUEUE_SIZE; i++)
+        counters[i] = 10000;
+    
     for (i = 0; i < reference_string_length; i++)
     {
         int emptyIndex = empty_frame_spot();
         if (is_page_fault(reference_string[i]))
         {   
             total_page_faults++;
-            display_fault_frame(reference_string[i]);
             if (emptyIndex == -1)
             {
-                int index, smallestIndex;
+                int index, smallestFrame;
                 int lru = 10000;
-                for (index = 0; i < MAX_QUEUE_SIZE; index++)
-                    if (counters[index] < lru)
+                for (index = 0; index < frames_available; index++)
+                {
+                    if (counters[frames[index]] < lru)
                     {
-                        lru = counters[index];
-                        smallestIndex = index;
+                        lru = counters[frames[index]];
+                        smallestFrame = frames[index];
                     }
+                }
 
-                frames[getFrameIndex(smallestIndex)] = reference_string[i];
-                counters[smallestIndex] = i;
+                frames[getFrameIndex(smallestFrame)] = reference_string[i];
+                counters[reference_string[i]] = i;
             }else
             {
                 frames[emptyIndex] = reference_string[i];
                 counters[reference_string[i]] = i;
             }
+            display_fault_frame(reference_string[i]);
         }else
         {
             counters[reference_string[i]] = i;
@@ -408,6 +415,7 @@ void CLOCK_replacement()
         int emptyIndex = empty_frame_spot();
         if (is_page_fault(reference_string[i]))
         {
+            total_page_faults++;
             if (emptyIndex == -1)
             {
                 while (second_chance[pointer])
@@ -419,6 +427,7 @@ void CLOCK_replacement()
                 pointer = (pointer + 1) % frames_available;
             }else
                 frames[emptyIndex] = reference_string[i];
+            display_fault_frame(reference_string[i]);
         }else
         {
             second_chance[getFrameIndex(reference_string[i])] = 1;

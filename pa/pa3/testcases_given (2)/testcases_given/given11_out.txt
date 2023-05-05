@@ -1,0 +1,35 @@
+algorithm = LRU
+frames_available = 2
+reference_string_length = 30
+reference_string = 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 0 
+9: 9   
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+9: No Page Fault
+0: 9 0 
+Total Page Fault: 2

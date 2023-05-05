@@ -1,0 +1,10 @@
+# Page replacement algorithm
+# Empty lines and lines starting with '#' are ignored
+
+algorithm = LRU
+
+frames_available = 10
+
+reference_string_length = 5
+
+reference_string = 0 0 2 2 3

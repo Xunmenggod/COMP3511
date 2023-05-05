@@ -1,0 +1,11 @@
+# Page replacement algorithm
+# Empty lines and lines starting with '#' are ignored
+# Reference: https://www.geeksforgeeks.org/second-chance-or-clock-page-replacement-policy/
+
+algorithm = CLOCK
+
+frames_available = 3
+
+reference_string_length = 18
+
+reference_string = 0 4 1 4 2 4 3 4 2 4 0 4 1 4 2 4 3 4

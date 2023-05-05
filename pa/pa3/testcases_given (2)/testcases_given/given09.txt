@@ -1,0 +1,10 @@
+# Page replacement algorithm
+# Empty lines and lines starting with '#' are ignored
+
+algorithm = FIFO
+
+frames_available = 2
+
+reference_string_length = 30
+
+reference_string = 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 0
